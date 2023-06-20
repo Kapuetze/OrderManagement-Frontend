@@ -1,0 +1,8 @@
+<div id="login-form-container" class="container">
+	<h1>Log in</h1>
+	<form [formGroup]="loginForm" (submit)="login()" class="columns p-centered">
+		<app-text-input [parentForm]="loginForm" type="email" label="E-Mail" placeholder="E-Mail" id="email" class="colum col-12 pb-2"></app-text-input>
+		<app-text-input [parentForm]="loginForm" type="password" label="Password" placeholder="Password" id="password" class="colum col-12 pb-2"></app-text-input>
+		<button class="column col-12 mt-2 btn btn-lg" type="submit" [disabled]="!loginForm.valid">Login</button>
+	</form>
+</div>
