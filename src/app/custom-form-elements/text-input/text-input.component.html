@@ -1,4 +1,19 @@
 <div class="form-group" [formGroup]="parentForm">
 	<label class="form-label" for="{{id}}">{{label}}</label>
-	<input [type]="type" [name]="id" [formControlName]="id" placeholder="{{placeholder}}" value="{{value}}" class="col-12 form-input input-lg">
+	<input [type]="type" [name]="id" [formControlName]="id" placeholder="{{placeholder}}" value="{{value}}" class="col-12 form-input input-lg" 
+		[ngClass]="{'is-error': formControl.invalid && (formControl.dirty || formControl.touched)}">
+
+	<!-- Validation messages -->
+	<div *ngIf="formControl.invalid && (formControl.dirty || formControl.touched)" class="form-input-hint">
+
+		<div *ngIf="formControl.errors?.['required']">
+			{{label}} is required.
+		</div>
+		<div *ngIf="formControl.errors?.['email']">
+			{{label}} must be a valid email.
+		</div>
+		<div *ngIf="formControl.errors?.['minlength']">
+			{{label}} must be at least x characters long.
+		</div>
+	</div>
 </div>
