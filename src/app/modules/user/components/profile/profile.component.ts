@@ -1,24 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../user.service';
+import { UserHelper } from '../../user.service';
 import { Router } from "@angular/router";
-import { User } from '../../../../shared/models/user';
+import { User, UserService } from 'src/app/shared/services/ordermanagement-api';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+	selector: 'app-profile',
+	templateUrl: './profile.component.html',
+	styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
 
-  user : User = new User();
-  
-  constructor(private userService: UserService, private router: Router) { }
+	user: User = {
+		email: '',
+		userName: ''
+	};
 
-  ngOnInit() {
-    this.userService.getUser(localStorage.getItem('user_id')!)
-    .subscribe(
-      data => this.user = data as User
-    )
-  }
+	constructor(private userService: UserService, private router: Router) { }
+
+	ngOnInit() {
+		this.userService.userGet()
+			.subscribe(
+				data => this.user = data as User
+			)
+	}
 
 }

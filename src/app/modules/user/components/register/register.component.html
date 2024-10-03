@@ -1,17 +1,17 @@
-<div class="panel">
-	<div class="panel-header">
-		<div class="panel-title">Sign Up</div>
-	</div>
-	<div class="panel-body">
-		<div id="register-form-container" class="container">
-			<form [formGroup]="registerForm" (submit)="register()" class="columns p-centered">
+<div id="register-form-container" class="card p-centered">
+	<form [formGroup]="registerForm" (submit)="register()">
+		<div class="card-header">
+			<div class="card-title h5">Sign Up</div>
+		</div>
+		<div class="card-body">
+			<div class="columns p-centered">
 				<app-text-input [parentForm]="registerForm" type="email" label="E-Mail" placeholder="E-Mail" id="email"></app-text-input>
 				<app-text-input [parentForm]="registerForm" type="password" label="Password" placeholder="Password" id="password"></app-text-input>
 				<app-text-input [parentForm]="registerForm" type="password" label="Confirm Password" placeholder="Confirm Password" id="cpassword"></app-text-input>
-			</form>
+			</div>
 		</div>
-	</div>
-	<div class="panel-footer">
-		<button class="column col-12 mt-2 btn btn-lg" type="submit" [disabled]="!registerForm.valid">Register</button>
-	</div>
+		<div class="card-footer">
+			<button class="column col-12 mt-2 btn btn-lg" type="submit" [disabled]="!registerForm.valid">Register</button>
+		</div>
+	</form>
 </div>

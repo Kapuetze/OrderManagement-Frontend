@@ -13,29 +13,37 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './shared/auth/auth.interceptor';
 import { AuthGuard } from './shared/auth/auth.guard';
 import { CustomUtilitiesModule } from './custom-utilities/custom-utilities.module';
+import { ApiModule, Configuration, ConfigurationParameters } from './shared/services/ordermanagement-api';
 
 export function createTranslateLoader(http: HttpClient) {
-    return new TranslateHttpLoader(http, './assets/locale/', '.json');
+	return new TranslateHttpLoader(http, './assets/locale/', '.json');
 }
 
 @NgModule({
 	declarations: [
-        AppComponent
+		AppComponent
 	],
 	imports: [
 		BrowserModule,
-        AppRoutingModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: (createTranslateLoader),
-                deps: [HttpClient]
-            }
-        }),
+		AppRoutingModule,
+		TranslateModule.forRoot({
+			loader: {
+				provide: TranslateLoader,
+				useFactory: (createTranslateLoader),
+				deps: [HttpClient]
+			}
+		}),
 		FormsModule,
 		ReactiveFormsModule,
 		HttpClientModule,
-		CustomUtilitiesModule
+		CustomUtilitiesModule,
+		ApiModule.forRoot(() => {
+			const params: ConfigurationParameters = {
+				credentials: { "Bearer": "Bearer " + localStorage.getItem("jwt_token")! }
+			}
+
+			return new Configuration(params)
+		})
 	],
 	providers: [{
 		provide: HTTP_INTERCEPTORS,

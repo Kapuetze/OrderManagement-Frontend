@@ -4,16 +4,20 @@
     "title": "OrderManagement.Api",
     "version": "1.0"
   },
+  "servers": [
+    {
+      "url": "https://localhost:7247"
+    }
+  ],
   "paths": {
     "/Account": {
       "get": {
         "tags": [
           "Account"
         ],
-        "operationId": "Get",
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
@@ -39,7 +43,6 @@
         "tags": [
           "Account"
         ],
-        "operationId": "Post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -61,7 +64,7 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "OK"
           }
         }
       }
@@ -71,7 +74,6 @@
         "tags": [
           "Account"
         ],
-        "operationId": "GetById",
         "parameters": [
           {
             "name": "id",
@@ -85,7 +87,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
@@ -107,7 +109,6 @@
         "tags": [
           "User"
         ],
-        "operationId": "Post",
         "parameters": [
           {
             "name": "password",
@@ -138,7 +139,7 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "OK"
           }
         }
       },
@@ -146,20 +147,9 @@
         "tags": [
           "User"
         ],
-        "operationId": "Get",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
@@ -172,6 +162,34 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/User/Authorize": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -297,13 +315,23 @@
           "userName": {
             "minLength": 1,
             "type": "string"
-          },
-          "contact": {
-            "$ref": "#/components/schemas/Contact"
           }
         },
         "additionalProperties": false
       }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12345abcdef\"",
+        "name": "Authorization",
+        "in": "header"
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
 }

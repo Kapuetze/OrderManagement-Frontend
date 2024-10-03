@@ -1,16 +1,16 @@
 <header class="navbar">
 	<section class="navbar-section">
-		<a *ngIf="_userService.isLoggedIn()" [routerLink]="['/dashboard']" class="btn btn-link" routerLinkActive="uk-active">Dashboard</a>
-		<a *ngIf="_userService.isLoggedIn()" [routerLink]="['/container']" class="btn btn-link" routerLinkActive="uk-active">{{ 'nav.containers' | translate }}</a>
+		<a *ngIf="_userHelper.isLoggedIn()" [routerLink]="['/dashboard']" class="btn btn-link" routerLinkActive="uk-active">Dashboard</a>
+		<a *ngIf="_userHelper.isLoggedIn()" [routerLink]="['/container']" class="btn btn-link" routerLinkActive="uk-active">{{ 'nav.containers' | translate }}</a>
 	</section>
 	<section class="navbar-center">
 		<!-- centered logo or brand -->
 	</section>
 	<section class="navbar-section">
-		<a *ngIf="!_userService.isLoggedIn()" [routerLink]="['/user/login']" class="btn btn-link" routerLinkActive="uk-active">Login</a>
-		<a *ngIf="!_userService.isLoggedIn()" [routerLink]="['/user/register']" class="btn btn-link" routerLinkActive="uk-active">Sign Up</a>
-		<a *ngIf="_userService.isLoggedIn()" [routerLink]="['/user/profile']" class="btn btn-link" routerLinkActive="btn-link-active">{{ _userService.getUserName() }}</a>
-		<a *ngIf="_userService.isLoggedIn()" (click)="logout()" class="btn btn-link" routerLinkActive="btn-link-active">Logout</a>
+		<a *ngIf="!_userHelper.isLoggedIn()" [routerLink]="['/user/login']" class="btn btn-link" routerLinkActive="uk-active">Login</a>
+		<a *ngIf="!_userHelper.isLoggedIn()" [routerLink]="['/user/register']" class="btn btn-link" routerLinkActive="uk-active">Sign Up</a>
+		<a *ngIf="_userHelper.isLoggedIn()" [routerLink]="['/user/profile']" class="btn btn-link" routerLinkActive="btn-link-active">{{ _userHelper.getUserName() }}</a>
+		<a *ngIf="_userHelper.isLoggedIn()" (click)="logout()" class="btn btn-link" routerLinkActive="btn-link-active">Logout</a>
 	</section>
 </header>
 

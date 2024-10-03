@@ -1,70 +1,53 @@
 import { environment } from '@environment/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { User } from "@models/user";
 import * as moment from "moment";
 import { Observable, of } from 'rxjs';
 import { map, catchError } from "rxjs/operators";
+import { Configuration, User } from 'src/app/shared/services/ordermanagement-api';
 
 @Injectable({
-  	providedIn: 'root'
+	providedIn: 'root'
 })
-export class UserService {
+export class UserHelper {
 
-  	constructor(private http:HttpClient) { }
+	constructor(private http: HttpClient, private apiConfiguration: Configuration) { }
 
-	//register a new account
-  	register(body: any){
-		return this.http.post(environment.apiBase + "/user/register", body, {
-			observe: "body",
-			headers: new HttpHeaders().append("Content-Type", "application/json")
-		});
+	// getUser(id: string) {
+	// 	return this.http.get(environment.apiBase + "/user/"+id).pipe(
+	// 		map((res) => res as User),
+	// 		catchError(error => of([]))
+	// 	);
+	// }
+
+	public setSession(authResult: any) {
+		// localStorage.setItem('token_id', authResult.token);
+		localStorage.setItem("token_expiration", authResult.expires);
+		localStorage.setItem("jwt_token", authResult.token);
+		// Set the access token as default for the automatically generated openapi client
+		// https://github.com/OpenAPITools/openapi-generator/issues/5441
 	}
 
-	//login an account
-	login(body : any){
-		return this.http.post(environment.apiBase + "/user/login", body, {
-			observe: "body",
-			withCredentials: true,
-			headers: new HttpHeaders().append("Content-Type", "application/json")
-		});
+	logout() {
+		localStorage.removeItem("token_id");
+		localStorage.removeItem("token_expiration");
 	}
 
-	getUser(id: string) {
-		return this.http.get(environment.apiBase + "/user/"+id).pipe(
-			map((res) => res as User),
-			catchError(error => of([]))
-		);
+	public isLoggedIn() {
+		return moment().isBefore(this.getExpiration());
 	}
-	
-	public setSession(authResult : any) {
-		const expiresAt = moment().add(authResult.expiration,'second');		
-		localStorage.setItem('user_id', authResult.user._id);
-		localStorage.setItem('user_firstname', authResult.user.name.first);
-        localStorage.setItem('token_id', authResult.token);
-		localStorage.setItem("token_expiration", JSON.stringify(expiresAt.valueOf()) );
-    }          
 
-    logout() {
-        localStorage.removeItem("token_id");
-        localStorage.removeItem("token_expiration");
-    }
+	isLoggedOut() {
+		return !this.isLoggedIn();
+	}
 
-    public isLoggedIn() {
-        return moment().isBefore(this.getExpiration());
-    }
+	getExpiration() {
+		const expiration = localStorage.getItem("token_expiration");
+		// const expiresAt = JSON.parse(expiration!);
+		return moment(expiration);
+	}
 
-    isLoggedOut() {
-        return !this.isLoggedIn();
-    }
-
-    getExpiration() {
-        const expiration = localStorage.getItem("token_expiration");
-        const expiresAt = JSON.parse(expiration!);
-        return moment(expiresAt);
-    }    
-
-    public getUserName(){
-        return localStorage.getItem('user_firstname');
-    }
+	public getUserName() {
+		return localStorage.getItem('user_firstname');
+	}
 }

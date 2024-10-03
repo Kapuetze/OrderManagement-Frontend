@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from './modules/user/user.service';
+import { UserHelper } from './modules/user/user.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -11,7 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class AppComponent {
   name = '';
 
-  constructor(public _userService: UserService, 
+  constructor(public _userHelper: UserHelper, 
     private _translateService: TranslateService,
     private _router: Router) {
 
@@ -24,7 +24,7 @@ export class AppComponent {
   }
 
   public logout(){
-    this._userService.logout();
+    this._userHelper.logout();
     // Navigate to the login page with extras
     this._router.navigate(['/user', 'login']);
   }
